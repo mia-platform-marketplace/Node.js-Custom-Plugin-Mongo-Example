@@ -40,7 +40,7 @@ module.exports = customService(async function index(service) {
 
     cursor.toArray((error, docs) => {
       if (error) {
-        reply.code(500).send('fatal error')
+        throw (new Error('fatal error'))
       }
       if (docs.length === 0) {
         reply.code(404).send('No greetings found')
@@ -64,7 +64,7 @@ module.exports = customService(async function index(service) {
       throw new Error('This API should be consumed only by authenticated users!')
     }
     const userToSayHello = req.body.who
-    this.mongo.db.collection('mycollection').insertOne({
+    await this.mongo.db.collection('mycollection').insertOne({
       from: currentUserId,
       to: userToSayHello,
       type: this.GREETING_TYPE.HELLO,

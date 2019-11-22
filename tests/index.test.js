@@ -99,7 +99,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
     t.test('greetings found', async t => {
       t.plan(2)
 
-      await fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' })
+      fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' })
 
       const response = await fastify.inject({
         method: 'GET',
