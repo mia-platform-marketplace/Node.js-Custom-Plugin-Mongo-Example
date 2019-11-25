@@ -16,7 +16,7 @@ RUN echo "%CUSTOM_PLUGIN_SERVICE_NAME%: $COMMIT_SHA" >> ./commit.sha
 
 ########################################################################################################################
 
-FROM node:10.16.0-alpine
+FROM node:10.17.0-alpine
 
 LABEL maintainer="%CUSTOM_PLUGIN_CREATOR_USERNAME%" \
       name="%CUSTOM_PLUGIN_SERVICE_NAME%" \

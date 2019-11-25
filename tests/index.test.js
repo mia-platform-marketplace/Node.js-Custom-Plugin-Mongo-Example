@@ -13,12 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint id-length: 0 */
-/* eslint no-shadow: 0 */
-/* eslint no-magic-numbers: 0 */
-/* eslint no-process-env: 0 */
-/* eslint no-use-before-define: 0 */
-/* eslint max-nested-callbacks: 0 */
+
 'use strict'
 
 const t = require('tap')
