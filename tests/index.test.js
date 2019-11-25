@@ -99,7 +99,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
     t.test('greetings found', async t => {
       t.plan(2)
 
-      fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' })
+      await fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' })
 
       const response = await fastify.inject({
         method: 'GET',
@@ -114,6 +114,24 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
         to: 'Foo',
         type: 'hello',
       })
+    })
+
+    t.test('error connecting to Mongo using not existing host', async t => {
+      t.plan(1)
+      const WRONG_MONGODB_URL = `mongodb://wronghost:27017/test`
+      t.rejects(setupFastify({
+        USERID_HEADER_KEY: 'userid',
+        GROUPS_HEADER_KEY: 'groups',
+        CLIENTTYPE_HEADER_KEY: 'clienttype',
+        BACKOFFICE_HEADER_KEY: 'backoffice',
+        MICROSERVICE_GATEWAY_SERVICE_NAME: 'microservice-gateway.example.org',
+        MONGODB_URL: WRONG_MONGODB_URL,
+      }))
+    })
+    t.test('error contacting Mongo after close connection', async t => {
+      t.plan(1)
+      await fastify.close()
+      t.rejects(fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' }))
     })
 
     t.end()
