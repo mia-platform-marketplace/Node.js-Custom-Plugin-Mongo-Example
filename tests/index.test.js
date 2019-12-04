@@ -49,7 +49,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
   })
 
   t.test('POST /greetings', t => {
-    t.test('ok', async t => {
+    t.test('should send a POST with the greetings data', async t => {
       t.plan(2)
       const response = await fastify.inject({
         method: 'POST',
@@ -78,7 +78,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
   })
 
   t.test('GET /greetings', async t => {
-    t.test('no greetings found', async t => {
+    t.test('retrieve no greetings since the searched user does not exist', async t => {
       t.plan(2)
 
       const response = await fastify.inject({
@@ -92,7 +92,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
       t.strictSame(response.payload, 'No greetings found')
     })
 
-    t.test('greetings found', async t => {
+    t.test('retrieve greetings from a given user', async t => {
       t.plan(2)
 
       await fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' })
