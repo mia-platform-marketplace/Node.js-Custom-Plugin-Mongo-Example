@@ -40,6 +40,10 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
     MONGODB_URL,
   })
 
+  t.afterEach(async() => {
+    await removeAllElementFromMyCollection()
+  })
+
   t.tearDown(async() => {
     await fastify.close()
   })
@@ -47,7 +51,6 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
   t.test('POST /greetings', t => {
     t.test('ok', async t => {
       t.plan(2)
-      await removeAllElementFromMyCollection()
       const response = await fastify.inject({
         method: 'POST',
         url: '/greetings',
@@ -75,8 +78,6 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
   })
 
   t.test('GET /greetings', async t => {
-    await removeAllElementFromMyCollection()
-
     t.test('no greetings found', async t => {
       t.plan(2)
 
@@ -125,7 +126,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
     })
     t.test('error contacting Mongo after close connection', async t => {
       t.plan(1)
-      await fastify.close()
+      await fastify.mongo.client.close()
       t.rejects(fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' }))
     })
 
