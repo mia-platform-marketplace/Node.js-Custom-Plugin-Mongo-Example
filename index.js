@@ -29,7 +29,6 @@ module.exports = customService(async function index(service) {
   service.register(fastifyMongodb, {
     url: service.config.MONGODB_URL,
     useNewUrlParser: true,
-    useUnifiedTopology: false,
   })
 
   service.addRawCustomPlugin('GET', '/greetings', async function handler(req, reply) {
