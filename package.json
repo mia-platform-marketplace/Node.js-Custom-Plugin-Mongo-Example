@@ -29,7 +29,7 @@
   "devDependencies": {
     "@mia-platform/eslint-config-mia": "^2.0.1",
     "eslint": "^6.7.1",
-    "mongodb": "^3.3.4",
+    "mongodb": "^3.5.7",
     "nock": "^11.7.0",
     "pre-commit": "^1.2.2",
     "tap": "^14.10.1"
