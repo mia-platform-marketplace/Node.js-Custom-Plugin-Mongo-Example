@@ -27,7 +27,7 @@
     "fastify-mongodb": "^2.0.0"
   },
   "devDependencies": {
-    "@mia-platform/eslint-config-mia": "^2.0.1",
+    "@mia-platform/eslint-config-mia": "^3.0.0",
     "eslint": "^6.7.1",
     "mongodb": "^3.3.4",
     "nock": "^11.7.0",
