@@ -32,8 +32,8 @@ module.exports = customService(async function index(service) {
     useUnifiedTopology: false,
   })
 
-  service.addRawCustomPlugin('GET', '/greetings', async function handler(req, reply) {
-    const currentUserId = req.getUserId()
+  service.addRawCustomPlugin('GET', '/greetings/:userId', async function handler(req, reply) {
+    const currentUserId = req.params.userId
     if (!currentUserId) {
       throw new Error('This API should be consumed only by authenticated users!')
     }
@@ -59,8 +59,8 @@ module.exports = customService(async function index(service) {
   service.decorate('GREETING_TYPE', {
     HELLO: 'hello',
   })
-  service.addRawCustomPlugin('POST', '/greetings', async function handler(req, reply) {
-    const currentUserId = req.getUserId()
+  service.addRawCustomPlugin('POST', '/greetings/:userId', async function handler(req, reply) {
+    const currentUserId = req.params.userId
     if (!currentUserId) {
       throw new Error('This API should be consumed only by authenticated users!')
     }

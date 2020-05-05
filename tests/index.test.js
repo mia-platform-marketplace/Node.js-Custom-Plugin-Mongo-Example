@@ -53,10 +53,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
       t.plan(2)
       const response = await fastify.inject({
         method: 'POST',
-        url: '/greetings',
-        headers: {
-          userid: 'my-user-id',
-        },
+        url: '/greetings/my-user-id',
         payload: {
           who: 'Foo',
         },
@@ -83,10 +80,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
 
       const response = await fastify.inject({
         method: 'GET',
-        url: '/greetings',
-        headers: {
-          userid: 'no-existing-user',
-        },
+        url: '/greetings/no-existing-user',
       })
       t.equal(response.statusCode, 404)
       t.strictSame(response.payload, 'No greetings found')
@@ -99,10 +93,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
 
       const response = await fastify.inject({
         method: 'GET',
-        url: '/greetings',
-        headers: {
-          userid: 'my-user-id',
-        },
+        url: '/greetings/my-user-id',
       })
       t.equal(response.statusCode, 200)
       t.same(JSON.parse(response.payload), {
