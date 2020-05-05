@@ -53,9 +53,10 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
       t.plan(2)
       const response = await fastify.inject({
         method: 'POST',
-        url: '/greetings/my-user-id',
+        url: '/greetings',
         payload: {
-          who: 'Foo',
+          from: 'sender',
+          to: 'receiver',
         },
       })
       t.equal(response.statusCode, 204)
@@ -66,8 +67,8 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
         const allDocs = await collection.find({}).toArray()
 
         t.equal(allDocs.length, 1)
-        t.strictSame(allDocs[0].from, 'my-user-id')
-        t.strictSame(allDocs[0].to, 'Foo')
+        t.strictSame(allDocs[0].from, 'sender')
+        t.strictSame(allDocs[0].to, 'receiver')
         t.strictSame(allDocs[0].type, 'hello')
       })
     })
@@ -80,7 +81,7 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
 
       const response = await fastify.inject({
         method: 'GET',
-        url: '/greetings/no-existing-user',
+        url: '/greetings?from=no-existing-sender',
       })
       t.equal(response.statusCode, 404)
       t.strictSame(response.payload, 'No greetings found')
@@ -89,16 +90,16 @@ t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
     t.test('retrieve greetings from a given user', async t => {
       t.plan(2)
 
-      await fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' })
+      await fastify.mongo.db.collection('mycollection').insertOne({ from: 'sender', type: 'hello', to: 'receiver' })
 
       const response = await fastify.inject({
         method: 'GET',
-        url: '/greetings/my-user-id',
+        url: '/greetings?from=sender',
       })
       t.equal(response.statusCode, 200)
       t.same(JSON.parse(response.payload), {
-        from: 'my-user-id',
-        to: 'Foo',
+        from: 'sender',
+        to: 'receiver',
         type: 'hello',
       })
     })

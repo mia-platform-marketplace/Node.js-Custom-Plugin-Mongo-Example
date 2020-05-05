@@ -32,12 +32,8 @@ module.exports = customService(async function index(service) {
     useUnifiedTopology: false,
   })
 
-  service.addRawCustomPlugin('GET', '/greetings/:userId', async function handler(req, reply) {
-    const currentUserId = req.params.userId
-    if (!currentUserId) {
-      throw new Error('This API should be consumed only by authenticated users!')
-    }
-    const cursor = this.mongo.db.collection('mycollection').find({ from: currentUserId })
+  service.addRawCustomPlugin('GET', '/greetings', async function handler(req, reply) {
+    const cursor = this.mongo.db.collection('mycollection').find({ from: req.query.from })
 
     cursor.toArray((error, docs) => {
       if (error) {
@@ -59,14 +55,11 @@ module.exports = customService(async function index(service) {
   service.decorate('GREETING_TYPE', {
     HELLO: 'hello',
   })
-  service.addRawCustomPlugin('POST', '/greetings/:userId', async function handler(req, reply) {
-    const currentUserId = req.params.userId
-    if (!currentUserId) {
-      throw new Error('This API should be consumed only by authenticated users!')
-    }
-    const userToSayHello = req.body.who
+  service.addRawCustomPlugin('POST', '/greetings', async function handler(req, reply) {
+    const userSayingHello = req.body.from
+    const userToSayHello = req.body.to
     await this.mongo.db.collection('mycollection').insertOne({
-      from: currentUserId,
+      from: userSayingHello,
       to: userToSayHello,
       type: this.GREETING_TYPE.HELLO,
     })
@@ -74,9 +67,12 @@ module.exports = customService(async function index(service) {
   }, {
     body: {
       type: 'object',
-      required: ['who'],
+      required: ['from', 'to'],
       properties: {
-        who: {
+        from: {
+          type: 'string',
+        },
+        to: {
           type: 'string',
         },
       },
