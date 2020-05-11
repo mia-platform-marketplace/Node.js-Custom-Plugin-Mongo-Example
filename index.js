@@ -50,17 +50,26 @@ module.exports = customService(async function index(service) {
           type: docs[0].type,
         })
     })
+  }, {
+    querystring: {
+      type: 'object',
+      required: ['from'],
+      properties: {
+        from: {
+          type: 'string',
+        },
+      },
+    },
   })
 
   service.decorate('GREETING_TYPE', {
     HELLO: 'hello',
   })
   service.addRawCustomPlugin('POST', '/greetings', async function handler(req, reply) {
-    const userSayingHello = req.body.from
-    const userToSayHello = req.body.to
+    const { from, to } = req.body
     await this.mongo.db.collection('mycollection').insertOne({
-      from: userSayingHello,
-      to: userToSayHello,
+      from,
+      to,
       type: this.GREETING_TYPE.HELLO,
     })
     reply.code(204)
