@@ -33,11 +33,7 @@ module.exports = customService(async function index(service) {
   })
 
   service.addRawCustomPlugin('GET', '/greetings', async function handler(req, reply) {
-    const currentUserId = req.getUserId()
-    if (!currentUserId) {
-      throw new Error('This API should be consumed only by authenticated users!')
-    }
-    const cursor = this.mongo.db.collection('mycollection').find({ from: currentUserId })
+    const cursor = this.mongo.db.collection('mycollection').find({ from: req.query.from })
 
     cursor.toArray((error, docs) => {
       if (error) {
@@ -54,29 +50,38 @@ module.exports = customService(async function index(service) {
           type: docs[0].type,
         })
     })
+  }, {
+    querystring: {
+      type: 'object',
+      required: ['from'],
+      properties: {
+        from: {
+          type: 'string',
+        },
+      },
+    },
   })
 
   service.decorate('GREETING_TYPE', {
     HELLO: 'hello',
   })
   service.addRawCustomPlugin('POST', '/greetings', async function handler(req, reply) {
-    const currentUserId = req.getUserId()
-    if (!currentUserId) {
-      throw new Error('This API should be consumed only by authenticated users!')
-    }
-    const userToSayHello = req.body.who
+    const { from, to } = req.body
     await this.mongo.db.collection('mycollection').insertOne({
-      from: currentUserId,
-      to: userToSayHello,
+      from,
+      to,
       type: this.GREETING_TYPE.HELLO,
     })
     reply.code(204)
   }, {
     body: {
       type: 'object',
-      required: ['who'],
+      required: ['from', 'to'],
       properties: {
-        who: {
+        from: {
+          type: 'string',
+        },
+        to: {
           type: 'string',
         },
       },
