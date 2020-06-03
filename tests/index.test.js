@@ -29,7 +29,7 @@ async function setupFastify(envVariables) {
 }
 
 const MONGODB_URL = `mongodb://${(process.env.MONGO_HOST || 'localhost')}:27017/test`
-t.test('%CUSTOM_PLUGIN_SERVICE_NAME%', async t => {
+t.test('mia_template_service_name_placeholder', async t => {
   // silent => trace for enabliing logs
   const fastify = await setupFastify({
     USERID_HEADER_KEY: 'userid',
