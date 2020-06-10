@@ -1,79 +1,47 @@
-# nodejs-custom-plugin
-[![pipeline status][pipeline]][git-link]
-[![coverage report][coverage]][git-link]
+## Node.js Hello-World Example walkthrough
+This walkthrough will explain you how to correctly generate a microservice to access MongoDB from the DevOps Console.
 
-## Summary
-%CUSTOM_PLUGIN_SERVICE_DESCRIPTION%
+In order to do so, access to [Mia-Platform DevOps Console](https://console.cloud.mia-platform.eu/login), create a new project and go to the **Design** area. <br /> From the Design area of your project select "Microservices" on the menu on the left sidebar and then create a new microservice, you have now reached [Mia-Platform Marketplace](https://docs.mia-platform.eu/development_suite/api-console/api-design/marketplace/)! <br />
+In the marketplace you will see a set of Examples and Templates that can be used to set-up microservices with a predefined and tested function. 
 
-## Local Development
-To develop the service locally you need:
-- Node 10+
+For this walkthrough select the following template: **Node.js Custom Plugin with Mongo Example**.
+Give to your microservice the following Name: **mongo-example**. Then, fill the other required fields and confirm that you want to create a microservice.
 
-To setup node, please if possible try to use [nvm][nvm], so you can manage multiple
-versions easily. Once you have installed nvm, you can go inside the directory of the project and simply run
-`nvm install`, the `.nvmrc` file will install and select the correct version if you don’t already have it.
-
-Once you have all the dependency in place, you can launch:
-```shell
-npm i
-npm run coverage
+This example requires to set the value of an environment variable to work properly. Go to the table *Environment variable configuration* of the newly created microservice *mongo-example* and add the following (key = value):
 ```
-
-This two commands, will install the dependencies and run the tests with the coverage report that you can view as an HTML
-page in `coverage/lcov-report/index.html`.
-After running the coverage you can create your local copy of the default values for the `env` variables needed for
-launching the application.
-```shell
-cp ./default.env ./.env
+MONGODB_URL = <YOUR_MONGODB_URL>
 ```
+(remember to replace `<YOUR_MONGODB_URL>` with the real url of your mongoDB)<br />
 
-From now on, if you want to change anyone of the default values for the variables you can do it inside the `local.env`
-file without pushing it to the remote repository.
+In order to access to our new microservice it is necessary to create an endpoint to it.<br />
+In particular, in this walkthrough we will create an endpoint to our microservice *mongo-example*. To do so, from the Design area of your project select "Endpoints" on the menu on the left sidebar and then create a new endpoint.<br />
+Now we need to choose a path for our endpoint and to connect this endpoint to our microservice. Give to your endpoint the following path: **mongo**. Then, specify that you want to connect your endpoint to a microservice and, finally, select *mongo-example*.
 
-Once you have all your dependency in place you can launch:
-```shell
-set -a && source .env
-npm start
-```
+After having created an endpoint to your microservice you should save the changes that you have done to your project in the DevOps console.<br />Remember to choose a meaningful title for your commit (e.g "example_mongo_creation"). After some seconds you will be prompted with a popup message which confirms that you have successfully saved all your changes.
 
-After that you will have the service exposed on your machine.
+Once all the changes that we have made are saved, we are now able to deploy our project through the API Console. Go to the **Deploy** area of the DevOps Console.<br />
+Once here select the environment and the branch you have worked on. When the deploy process is finished you will receveive a pop-up message that will inform you.
 
-## Configuring the Service
-<TO COMPLETE>
+Now, if you launch the following command on your terminal:
 
-## Contributing
-To contribute to the project, please be mindful for this simple rules:
-1. Don’t commit directly on master
-2. Start your branches with `feature/` or `fix/` based on the content of the branch
-3. If possible, refer to the Jira issue id, inside the name of the branch, but not call it only `fix/BAAST3000`
-4. Always commit in english
-5. Once you are happy with your branch, open a [Merge Request][merge-request]
+`curl <YOUR_PROJECT_HOST>/mongo/greetings?from=foo`
 
-## Run the Docker Image
-If you are interested in the docker image you can get one and run it locally with this commands:
-```shell
-docker pull %NEXUS_HOSTNAME%/mia_template_image_name_placeholder:latest
-set -a
-source .env
-docker run --name mia_template_service_name_placeholder \
-  -e USERID_HEADER_KEY=${USERID_HEADER_KEY} \
-  -e GROUPS_HEADER_KEY=${GROUPS_HEADER_KEY} \
-  -e CLIENTTYPE_HEADER_KEY=${CLIENTTYPE_HEADER_KEY} \
-  -e BACKOFFICE_HEADER_KEY=${BACKOFFICE_HEADER_KEY} \
-  -e MICROSERVICE_GATEWAY_SERVICE_NAME=${MICROSERVICE_GATEWAY_SERVICE_NAME} \
-  -e MONGODB_URL=${MONGODB_URL} \
-  -e LOG_LEVEL=trace \
-  -p 3000:3000 \
-  --detach \
-  %NEXUS_HOSTNAME%/mia_template_image_name_placeholder
-```
+(remember to replace `<YOUR_PROJECT_HOST>` with the real host of your project)<br />
+You should see the following message: 
 
-[pipeline]: %GITLAB_BASE_URL%/%CUSTOM_PLUGIN_PROJECT_FULL_PATH%/badges/master/pipeline.svg
-[coverage]: %GITLAB_BASE_URL%/%CUSTOM_PLUGIN_PROJECT_FULL_PATH%/badges/master/coverage.svg
-[git-link]: %GITLAB_BASE_URL%/%CUSTOM_PLUGIN_PROJECT_FULL_PATH%/commits/master
+`No greetings found`
 
-[nvm]: https://github.com/creationix/nvm
-[merge-request]: %GITLAB_BASE_URL%/%CUSTOM_PLUGIN_PROJECT_FULL_PATH%/merge_requests
+Foo has not sent any greeting, but you can launch a post request on your terminal to change this:
 
-##Notes
-The first project build will fail because the `package-lock.json` file is missing.
+`curl -X POST -H "Content-Type: application/json" -d '{"from":"foo", "to":"bar"}' <YOUR_PROJECT_HOST>/mongo/greetings`
+
+Now, if you lanch again:
+
+`curl <YOUR_PROJECT_HOST>/mongo/greetings?from=foo`
+
+the message that you should see should is:
+
+`{"from":"foo","to":"bar","type":"hello"}`
+
+Congratulations! You have successfully learnt how to use our Node.js Hello-World Example on the DevOps Console!
+
