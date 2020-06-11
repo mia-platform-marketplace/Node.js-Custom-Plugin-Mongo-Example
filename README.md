@@ -1,5 +1,5 @@
 
-# Node.js Hello-World Example walkthrough
+# Node.js Mongo Example walkthrough
 
 This walkthrough will explain you how to correctly generate a microservice to access MongoDB from the DevOps Console.
 
