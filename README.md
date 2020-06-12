@@ -34,23 +34,33 @@ Step 5 of [Microservice from template - Get started](https://docs.mia-platform.e
 
 Now, if you launch the following command on your terminal:
 
-`curl <YOUR_PROJECT_HOST>/mongo/greetings?from=foo`
+```shell
+curl <YOUR_PROJECT_HOST>/mongo/greetings?from=foo
+```
 
 (remember to replace `<YOUR_PROJECT_HOST>` with the real host of your project)  
 You should see the following message:
 
-`No greetings found`
+```json
+No greetings found
+```
 
 Foo has not sent any greeting, but you can launch a post request on your terminal to change this:
 
-`curl -X POST -H "Content-Type: application/json" -d '{"from":"foo", "to":"bar"}' <YOUR_PROJECT_HOST>/mongo/greetings`
+```shell
+curl -X POST -H "Content-Type: application/json" -d '{"from":"foo", "to":"bar"}' <YOUR_PROJECT_HOST>/mongo/greetings
+```
 
 Now, if you lanch again:
 
-`curl <YOUR_PROJECT_HOST>/mongo/greetings?from=foo`
+```shell
+curl <YOUR_PROJECT_HOST>/mongo/greetings?from=foo
+```
 
-the message that you should see should is:
+the message that you should see should be:
 
-`{"from":"foo","to":"bar","type":"hello"}`
+```json
+{"from":"foo","to":"bar","type":"hello"}
+```
 
 Congratulations! You have successfully learnt how to use our Node.js Hello-World Example on the DevOps Console!
