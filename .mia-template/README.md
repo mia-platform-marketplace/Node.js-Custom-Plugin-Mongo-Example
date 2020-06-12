@@ -73,7 +73,7 @@ If you are interested in the docker image you can get one and run it locally wit
 ```shell
 docker pull %NEXUS_HOSTNAME%/mia_template_image_name_placeholder:latest
 set -a
-source .env
+source local.env
 docker run --name mia_template_service_name_placeholder \
   -e USERID_HEADER_KEY=${USERID_HEADER_KEY} \
   -e GROUPS_HEADER_KEY=${GROUPS_HEADER_KEY} \
