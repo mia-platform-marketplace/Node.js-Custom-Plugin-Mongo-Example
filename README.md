@@ -57,10 +57,10 @@ Now, if you lanch again:
 curl <YOUR_PROJECT_HOST>/mongo/greetings?from=foo
 ```
 
-the message that you should see should be:
+the message that you see should be:
 
 ```json
 {"from":"foo","to":"bar","type":"hello"}
 ```
 
-Congratulations! You have successfully learnt how to use our Node.js Hello-World Example on the DevOps Console!
+Congratulations! You have successfully learnt how to use our Node.js Custom Plugin with Mongo Example on the DevOps Console!
