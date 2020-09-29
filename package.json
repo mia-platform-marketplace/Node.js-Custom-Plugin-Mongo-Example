@@ -17,7 +17,7 @@
     "version": "npm run update-docker-version && rm -fr Dockerfile.bck && git add Dockerfile"
   },
   "dependencies": {
-    "@mia-platform/custom-plugin-lib": "^2.0.1",
+    "@mia-platform/custom-plugin-lib": "^2.0.2",
     "fastify-mongodb": "^2.0.1"
   },
   "devDependencies": {
