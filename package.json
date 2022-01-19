@@ -34,5 +34,8 @@
   "private": true,
   "eslintConfig": {
     "extends": "@mia-platform/eslint-config-mia"
+  },
+  "tap": {
+    "check-coverage": false
   }
 }
