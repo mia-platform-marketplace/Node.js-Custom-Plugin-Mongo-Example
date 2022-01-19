@@ -17,19 +17,19 @@
     "version": "npm run update-docker-version && rm -fr Dockerfile.bck && git add Dockerfile"
   },
   "dependencies": {
-    "@mia-platform/custom-plugin-lib": "^2.3.0",
-    "fastify-mongodb": "^2.0.1"
+    "@mia-platform/custom-plugin-lib": "^4.2.0",
+    "fastify-mongodb": "^4.1.1"
   },
   "devDependencies": {
     "@mia-platform/eslint-config-mia": "^3.0.0",
-    "eslint": "^7.32.0",
-    "mongodb": "^3.6.10",
-    "nock": "^13.1.1",
+    "eslint": "^8.7.0",
+    "mongodb": "^4.3.1",
+    "nock": "^13.2.2",
     "pre-commit": "^1.2.2",
-    "tap": "^14.11.0"
+    "tap": "^15.1.6"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "private": true,
   "eslintConfig": {

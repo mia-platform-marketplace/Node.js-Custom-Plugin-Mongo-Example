@@ -29,6 +29,7 @@ async function setupFastify(envVariables) {
 }
 
 const MONGODB_URL = `mongodb://${(process.env.MONGO_HOST || 'localhost')}:27017/test`
+
 t.test('mia_template_service_name_placeholder', async t => {
   // silent => trace for enabliing logs
   const fastify = await setupFastify({
@@ -44,7 +45,7 @@ t.test('mia_template_service_name_placeholder', async t => {
     await removeAllElementFromMyCollection()
   })
 
-  t.tearDown(async() => {
+  t.teardown(async() => {
     await fastify.close()
   })
 
@@ -116,11 +117,6 @@ t.test('mia_template_service_name_placeholder', async t => {
         MONGODB_URL: WRONG_MONGODB_URL,
       }))
     })
-    t.test('error contacting Mongo after close connection', async t => {
-      t.plan(1)
-      await fastify.mongo.client.close()
-      t.rejects(fastify.mongo.db.collection('mycollection').insertOne({ from: 'my-user-id', type: 'hello', to: 'Foo' }))
-    })
 
     t.end()
   })
@@ -129,7 +125,7 @@ t.test('mia_template_service_name_placeholder', async t => {
 })
 
 async function removeAllElementFromMyCollection() {
-  const client = await MongoClient.connect(MONGODB_URL, { useNewUrlParser: true })
+  const client = await MongoClient.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   const db = client.db('test')
   const collection = db.collection('mycollection')
   await collection.deleteMany({})
