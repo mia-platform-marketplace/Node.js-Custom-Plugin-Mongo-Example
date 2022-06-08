@@ -28,7 +28,7 @@ async function setupFastify(envVariables) {
   return fastify
 }
 
-const MONGODB_URL = `mongodb://${(process.env.MONGO_HOST || 'localhost')}:27017/test`
+const MONGODB_URL = `mongodb://${(process.env.MONGO_HOST || 'localhost:27017')}/test`
 
 t.test('mia_template_service_name_placeholder', async t => {
   // silent => trace for enabliing logs
